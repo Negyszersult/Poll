@@ -2,9 +2,12 @@ from flask import Flask, render_template, url_for, redirect, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, login_required, login_user, logout_user, current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField, RadioField
-from wtforms.validators import InputRequired, Length, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, SelectField, RadioField, FieldList, EmailField
+from wtforms.validators import InputRequired, Length, ValidationError, DataRequired
 from flask_bcrypt import Bcrypt
+from email.message import EmailMessage
+import ssl
+import smtplib
 
 # kiterjesztések
 app = Flask(__name__,template_folder='templates')
@@ -38,7 +41,12 @@ class Answer(db.Model):
 # radiobutton értékének elmentése adatbázisba(tábla), anonim vagy nem anonim szavazás
 class Anonim(db.Model):
     Tid = db.Column(db.Integer, primary_key=True)
+    question_title = db.Column(db.String(50))
     radio_value = db.Column(db.String(10))
+
+class Email(db.Model):
+    Eid = db.Column(db.Integer, primary_key=True)
+    emails_data = db.Column(db.String(100))
 
 #FlaskForm createpoll.html oldal
 class QuestionForm(FlaskForm):
@@ -46,6 +54,11 @@ class QuestionForm(FlaskForm):
         min=4, max=50)], render_kw={"placeholder": "Kérdés..."})
     anonymous = RadioField('Anonim szavazás', choices=[('Igen','Anonim'),('Nem','Nem Anonim')])
     submit = SubmitField("Szavazás elkészítése")
+
+class EmailForm(FlaskForm):
+    emails = StringField(validators=[InputRequired(), Length(
+        min=1, max=100)], render_kw={"placeholder": "Emailcímek"})
+    submit_email = SubmitField('Szavazás kiküldése')
 
 
 #adatbázis létrehozása terminálon keresztül:
@@ -154,19 +167,63 @@ def createpoll():
     db.session.commit()
     db.session.query(Anonim).delete()
     db.session.commit()
+    db.session.query(Email).delete()
+    db.session.commit()
     form = QuestionForm()
-    # radiobutton értékének elmentése adatbázisba
+    # radiobutton értékének és a szavazás kérdésének elmentése adatbázisba
     if form.validate_on_submit():
-        new_anonim = Anonim(radio_value=form.anonymous.data)
+        new_anonim = Anonim(radio_value=form.anonymous.data, question_title=form.question.data)
         db.session.add(new_anonim)
         db.session.commit()
 
-        return redirect(url_for('polling'))
+        return redirect(url_for('sendmail'))
     return render_template("createpoll.html", form=form)
+
+@app.route('/emailsend', methods=["GET", "POST"])
+def sendmail():
+    form = EmailForm()
+    if form.validate_on_submit():
+        new_emails = Email(emails_data=form.emails.data)
+        db.session.add(new_emails)
+        db.session.commit()
+
+        email_values = Email.query.all()
+        for email in email_values:
+            emails = email.emails_data
+        email_list = emails.split(', ')
+
+        email_sender = 'flask.poll@gmail.com'
+        email_password = 'hfnttlwztwpzfvjv'
+        email_receiver = email_list
+        subject = 'Szavazás meghívó'
+        body = """
+        A linkre kattintva le tudja adni a szavazatát http://127.0.0.1:5000/pollpage
+        """
+        em = EmailMessage()
+        em['From'] = email_sender
+        em['To'] = email_receiver
+        em['Subject'] = subject
+        em.set_content(body)
+
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+            smtp.login(email_sender, email_password)
+            smtp.sendmail(email_sender, email_receiver, em.as_string())
+
+
+        return redirect(url_for('polling'))
+    return render_template("sendmail.html", form=form)
+    
 
 @app.route('/pollpage', methods =["GET", "POST"])
 def polling():
     form = AnswerForm()
+
+    #szavazás kérdése adatbázisból változóba mentése
+    question_titles = Anonim.query.all()
+    for question in question_titles:
+        title = question.question_title
+
     if form.validate_on_submit():
 
         # a radio button értékének lekérdezése, hogy a szavazás anonim, vagy nem anonim
@@ -196,14 +253,18 @@ def polling():
 
 
         return redirect(url_for('result'))
-    return render_template("pollpage.html", form=form)
+    return render_template("pollpage.html", form=form, title=title)
 
 # szavazatok száma, szavazás eredménye
 @app.route('/resultpage', methods =["GET", "POST"])
 def result():
+    question_titles = Anonim.query.all()
+    for question in question_titles:
+        title = question.question_title
+
     Result_Igen = Answer.query.filter_by(answer="Igen").count()
     Result_Nem = Answer.query.filter_by(answer="Nem").count()
-    return render_template("result.html", Result_Igen=Result_Igen, Result_Nem=Result_Nem)
+    return render_template("result.html", Result_Igen=Result_Igen, Result_Nem=Result_Nem, title=title)
 
 if __name__=='__main__':
    app.run(debug=True)
@@ -212,5 +273,5 @@ if __name__=='__main__':
 ###################################################################
 # sqlite3 userdatabase.db
 # select * from user; - felhasználó tábla
-# select * from anonim; - szavazás fajtája (Anonim, vagy nem anonim)
+# select * from anonim; - szavazás fajtája (Anonim, vagy nem anonim) és a szavazás kérdése
 # select * from answer; - a szavazó IP címe(titkosított vagy nem titkosított) és válasza

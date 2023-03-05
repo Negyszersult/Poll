@@ -23,16 +23,20 @@
 
     <center>
         <br>
-        <h2>Készítsd el a saját szavazásodat</h2>
-        <p>Töltsd ki a szükséges adatokat</p>
+        <h2>Készítse el a saját szavazását</h2>
+        <p>Töltse ki a szükséges adatokat</p>
         <br>
         <form method="POST" action="">
             <h2>Szavazás létrehozása</h2>
-            <br><br>
+            <br>
             {{ form.hidden_tag() }}
             Eldöntendő szavazás kérdése
             <br>
+            A válasz IGEN vagy NEM lehet
+            <br><br>
             {{ form.question }}
+            <br><br>
+            A szavazás fajtája
             <br><br>
             {{ form.anonymous }}
             <br><br>

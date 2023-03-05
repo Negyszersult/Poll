@@ -24,9 +24,11 @@
     
 
     <center>
-        <br><br><br>
+        <br><br><br><br>
         <form method="POST" action="">
             {{ form.hidden_tag() }}
+            <h1>{{ title }}</h1>
+            <br><br>
             Válaszlehetőségek
             <br><br>
             {{ form.answer_field }}
