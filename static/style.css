@@ -1,0 +1,81 @@
+.my-custom-scrollbar {
+    position: relative;
+    height: 350px;
+    overflow: auto;
+}
+    .table-wrapper-scroll-y {
+    display: block;
+}
+
+.header{
+    position:sticky;
+    top: 0 ;
+}
+
+th {
+    text-align: center;
+}
+
+td {
+    background-color: white; 
+
+    text-align: center;
+}
+
+tr {
+
+    text-align: center;
+}
+
+.editor-field select {
+    margin-left: 250px;
+}
+
+select {
+    width: 300px;
+    height: 45px;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+  }
+
+#poll {
+    width: 300px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    transition: width 0.4s ease-in-out;
+}
+  
+#poll[type=text]:focus {
+    width: 564px;
+}
+
+#subject {
+    width: 564px;
+    height: 40px;
+    border: 1px solid black;
+    margin: 2px;
+}
+
+textarea {
+    border: 1px solid black;
+}
+
+p {
+    font-size: 25px;
+}
+
+textarea {
+    resize: none;
+}
+
+.card {
+    margin: 40px;
+}

@@ -8,11 +8,21 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    <title>Polling App - Bejelentkezés</title>
+    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='secretum_logo.ico') }}">
+    
+    <title>SECRETUM - Bejelentkezés</title>
+
+    <style>
+        body {
+            font-family: 'Oswald';font-size: 22px;
+        }
+    </style>
+
 </head>
 <body>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <a class="navbar-brand">Polling App</a>
+        <a class="navbar-brand">SECRETUM</a>
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('home')}}">Főoldal</a>
@@ -25,23 +35,25 @@
 
     <center>
         <form method="POST" action="{{ url_for('login') }}">
-            <br><br><br><br>
-            <h1>Bejelentkezés</h1>
-            <br>
-            <p>{{ wrong_user }}</p>
-            <br>
-            {{ form.hidden_tag() }}
-            Felhasználónév:
-            <br>
-            {{ form.username }}
             <br><br>
-            Jelszó:
-            <br>
-            {{ form.password }}
-            <br><br>
-            {{ form.submit }}
+            <div class="card w-25 border-0">
+                <h1>Bejelentkezés</h1>
+                <br>
+                <p>{{ wrong_user }}</p>
+                <br>
+                {{ form.hidden_tag() }}
+                <div class="form-outline mb-4">
+                    {{ form.username(class_="form-control") }}
+                    <label class="form-label" for="form2Example1">Felhasználónév</label>
+                </div>
+                <div class="form-outline mb-4">
+                    {{ form.password(class_="form-control") }}
+                    <label class="form-label" for="form2Example1">Jelszó</label>
+                </div>
+                {{ form.submit(class="btn btn-primary btn-block mb-4") }}
+            </div>
         </form>
-        <br><br>
+        <br>
         Még nincs fiókja? <a href="{{ url_for('register')}}">Regisztráljon!</a>
     </center>
 </body>
