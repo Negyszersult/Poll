@@ -20,7 +20,7 @@ bcrypt = Bcrypt(app)
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///userdatabase.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://cisrjsbkghfbnl:313efbe5c852913b1d95a678e117a08c9be2c14b54abfbfc079abfc98bd2510a@ec2-52-215-68-14.eu-west-1.compute.amazonaws.com:5432/d3lh5ptbp3r894'
-app.config['SECRET_KEY'] = 'secretkeysecretum22'
+app.config['SECRET_KEY'] = 'dsgsagajksgbldfbj2ekbrtu2i4tfisdkbkjsda'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -123,7 +123,7 @@ def register():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
         new_user = User(username=form.username.data, password=hashed_password)
         db.session.add(new_user)
-
+        db.session.commit()
         return redirect(url_for('login'))
 
     return render_template("register.html", form=form)
