@@ -284,7 +284,7 @@ def createpoll():
             subject = request.form["subject"]
             mail_body = request.form["body"]
             body = f"""{mail_body}
-                https://secretum-polling-app.herokuapp.com/votername/{current_user_name}/{Qid}.
+                https://secretum-polling-app.herokuapp.com/votername.
             """
             em = EmailMessage()
             em['From'] = email_sender
@@ -311,8 +311,8 @@ def createpoll():
                 
             return render_template("pollsent.html")
 
-@app.route('/votername/<current_user_name>/<Qid>', methods=["GET", "POST"])
-def getvotername(current_user_name, Qid):
+@app.route('/votername', methods=["GET", "POST"])
+def getvotername():
 
     last_user_name = LastLoggedInUser.query.all()
     for username in last_user_name:
