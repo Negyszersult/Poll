@@ -79,3 +79,9 @@ textarea {
 .card {
     margin: 40px;
 }
+
+.responsive {
+    width: 100%;
+    max-width: 701px;
+    height: auto;
+}
