@@ -344,7 +344,7 @@ def polling(Qid, option):
     crypt = (polls_df.at[int(Qid), 'crypt'])
 
     #cookie használata, hogy a szavazó csak egyszer szavazhasson
-    if request.cookies.get(f'polling_{Qid}_cookie') is None:
+    if request.cookies.get(f'polling_{current_user_name}_{Qid}_cookie') is None:
 
         # szavat leadása után a választott szavazat értékének növelése egyel a csv fájlban
         polls_df.at[int(Qid), "vote_result_counter_"+str(option)] += 1
@@ -374,7 +374,7 @@ def polling(Qid, option):
         #cookie beállítása
         flash("Leadta szavazatát, köszönjük!")
         response = make_response(redirect(url_for('polls', Qid=Qid)))
-        response.set_cookie(f'polling_{Qid}_cookie', str(option))
+        response.set_cookie(f'polling_{current_user_name}_{Qid}_cookie', str(option))
         return response
 
     else:
@@ -436,3 +436,6 @@ def results(Qid):
 
     elif crypt == "Anonim":
         return render_template("result.html", question=question, row_data=values)
+    
+if __name__=='__main__':
+   app.run(debug=True)
