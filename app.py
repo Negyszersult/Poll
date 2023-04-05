@@ -189,8 +189,8 @@ def user_page():
     return render_template("user.html", polls = polls_df)
 
 # elkészített szavazások oldala
-@app.route('/polls/<Qid>/<current_user_name>')
-def polls(Qid, current_user_name):
+@app.route('/polls/<Qid>')
+def polls(Qid):
 
     last_user_name = LastLoggedInUser.query.all()
     for username in last_user_name:
@@ -248,7 +248,7 @@ def createpoll():
             subject = request.form["subject"]
             mail_body = request.form["body"]
             body = f"""{mail_body}
-                https://secretum-polling-app.herokuapp.com/{Qid}/{current_user_name}.
+                https://secretum-polling-app.herokuapp.com/polls/{Qid}.
             """
             em = EmailMessage()
             em['From'] = email_sender
