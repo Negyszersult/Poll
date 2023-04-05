@@ -120,7 +120,7 @@ def register():
     # a jelszó titkosítása (hash) Bcrypt-tel és az adatbázisba helyezése
     # lekérdezés esetén a tikosított jelszót adja vissza
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf8')
         new_user = User(username=form.username.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
