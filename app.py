@@ -186,7 +186,7 @@ def user_page():
     polls_df = pd.read_csv(f'./users_polls_csv/user_{current_user_name}_polls.csv').set_index("Qid")
 
 
-    return render_template("user.html", polls = polls_df)
+    return render_template("user.html", polls = polls_df, current_user_name=current_user_name)
 
 # elkészített szavazások oldala
 @app.route('/polls/<Qid>')

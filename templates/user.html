@@ -42,25 +42,28 @@
     </nav>
 
     <center>
-        <br>
-        <div class="card">
-            <h3 class="card-header">Az eddig elkészített szavazásai</h3>
+        <div class="col-sm-6">
+            <div class="card">
+                <h2 class="card-header"><b>{{current_user_name}}</b> profilja</h2>
+                <div class="card-body">
+                    <p class="card-text">Itt hozhat létre új szavazást</p>
+                    <a class="btn btn-primary" href="{{ url_for('createpoll') }}">Új szavazás lértehozása</a>
+                </div>
+            </div>
         </div>
-        <div class="table-wrapper-scroll-y my-custom-scrollbar styled-table">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead class="thead-dark" style="position: sticky;top: 0">
+        <br>
+
+                <table class="table table-width">
+                    <thead class="thead-dark">
                         <tr>
-                            <th class="th-sm header" scope="col">Szavazás kérdése</th>
-                            <th class="th-sm header" scope="col">Szavazás megtekintése</th>
-                            <th class="th-sm header" scope="col">Szavazás eredménye</th>
-                            <th class="th-sm header" scope="col">Meghívottak száma</th>
-                            <th class="th-sm header" scope="col">Szavazás fajtája</th>
+                            <th>Szavazás</th>
+                            <th>Meghívottak száma</th>
+                            <th>Szavazás fajtája</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="active-row">
-                            <td colspan="5">
+                        <tr>
+                            <td colspan="3">
                                 {% with messages = get_flashed_messages() %}
                                     {% if messages %}
                                         {% for message in messages %}
@@ -73,10 +76,13 @@
                         </tr>
                         {% for key, value in polls.iterrows() %}
                             {% if key > 0 %}
-                                <tr class="active-row">
-                                    <td><p>{{ value['question'] }}</p></td>
-                                    <td><a class="btn btn-info" href="{{ url_for('polls', Qid=key) }}">Megtekintés</a></td>
-                                    <td><a class="btn btn-info" href="{{ url_for('results', Qid=key) }}">Eredmény</a></td>
+                                <tr>
+                                    <td>
+                                        <p>{{ value['question'] }}</p>
+                                        <br>
+                                        <a class="btn btn-info" href="{{ url_for('polls', Qid=key) }}">Megtekintés</a>
+                                        <a class="btn btn-info" href="{{ url_for('results', Qid=key) }}">Eredmény</a>
+                                    </td>
                                     <td><p>{{ value['participants'] }}</p></td>
                                     <td><p>{{ value['crypt'] }}</p></td>
                                 </tr>
@@ -84,10 +90,6 @@
                         {% endfor %}
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div id='chart' class='chart'></div>
-        <a class="btn btn-primary" href="{{ url_for('createpoll') }}">Új szavazás lértehozása</a>
     </center>
 
 </body>
