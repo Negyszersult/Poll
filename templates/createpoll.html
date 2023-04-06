@@ -41,19 +41,16 @@
     </nav>
 
     <center>
-        <br><br>
+        <br>
         <form action="{{ url_for('createpoll') }}" method="POST">
             <div class="col-sm-6">
                 <div class="card">
                     <h3 class="card-header">Új szavazás készítése</h3>
                     <div class="card-body">
-                        <h5 class="card-title">Töltse ki a szükséges adatokat a szavazás elkészítéséhez.</p>
                         <table class="table">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th colspan="2" class="th-sm header" scope="col">Új szavazás készítése</th>
-                                </tr>
-                            </thead>
+                            <tr>
+                                <h5 class="card-title">Töltse ki a szükséges adatokat a szavazás elkészítéséhez.</h5>
+                            </tr>
                             <label for="question">
                                 <tr>
                                     <td><p class="create-p">Szavazás kérdése</p>
