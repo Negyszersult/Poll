@@ -95,3 +95,11 @@ textarea {
   .white-color {
     color: white
   }
+
+.form-control {
+    width: 400px;
+}
+
+.submit-width {
+    width: 400px;
+}
