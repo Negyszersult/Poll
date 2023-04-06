@@ -31,10 +31,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent1">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ url_for('home')}}">Főoldal <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ url_for('login')}}">Bejelentkezés<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('login')}}">Bejelentkezés</a>
+                    <a class="nav-link" href="{{ url_for('home')}}">Főoldal</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('register')}}">Regisztráció</a>
@@ -46,21 +46,21 @@
     <center>
         <form method="POST" action="{{ url_for('login') }}">
             <br><br>
-            <div class="card w-25 border-0">
-                <h1>Bejelentkezés</h1>
-                <br>
-                <p>{{ wrong_user }}</p>
-                <br>
-                {{ form.hidden_tag() }}
-                <div class="form-outline mb-4">
-                    {{ form.username(class_="form-control") }}
-                    <label class="form-label" for="form2Example1">Felhasználónév</label>
-                </div>
-                <div class="form-outline mb-4">
-                    {{ form.password(class_="form-control") }}
-                    <label class="form-label" for="form2Example1">Jelszó</label>
-                </div>
-                {{ form.submit(class="btn btn-primary btn-block mb-4") }}
+            <h1>Bejelentkezés</h1>
+            <br>
+            <p>{{ wrong_user }}</p>
+            <br>
+            {{ form.hidden_tag() }}
+            <div class="form-outline mb-4">
+                {{ form.username(class_="form-control") }}
+                <label class="form-label" for="form2Example1">Felhasználónév</label>
+            </div>
+            <div class="form-outline mb-4">
+                {{ form.password(class_="form-control") }}
+                <label class="form-label" for="form2Example1">Jelszó</label>
+            </div>
+            <div class="submit-width">
+                {{ form.submit(class="btn btn-primary btn-block") }}
             </div>
         </form>
         <br>
