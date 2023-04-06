@@ -11,6 +11,7 @@
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='secretum_logo.ico') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
     <title>SECRETUM - Főoldal</title>
 
@@ -22,19 +23,24 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <nav class="navbar navbar-dark bg-dark">
         <a class="navbar-brand">SECRETUM</a>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('home')}}">Főoldal</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('login')}}">Bejelentkezés</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('register')}}">Regisztráció</a>
-            </li>
-        </ul>
+        <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+        aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="white-color">
+        <i class="fas fa-bars fa-1x"></i></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('home')}}">Főoldal <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login')}}">Bejelentkezés</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('register')}}">Regisztráció</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 
     <center>

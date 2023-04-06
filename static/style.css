@@ -85,3 +85,13 @@ textarea {
     max-width: 701px;
     height: auto;
 }
+
+.fa-1x {
+    font-size: 1.5rem;
+  }
+  .navbar-toggler.toggler-example {
+    cursor: pointer;
+  }
+  .white-color {
+    color: white
+  }
