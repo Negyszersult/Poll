@@ -10,6 +10,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
     <link rel="shortcut icon" href="{{ url_for('static', filename='secretum_logo.ico') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     
     <title>SECRETUM - Regisztráció</title>
 
@@ -21,41 +23,49 @@
     
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <nav class="navbar navbar-dark bg-dark">
         <a class="navbar-brand">SECRETUM</a>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('home')}}">Főoldal</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('login')}}">Bejelentkezés</a>
-            </li>
-        </ul>
+        <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+        aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="white-color">
+        <i class="fas fa-bars fa-1x"></i></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('register')}}">Regisztráció<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('home')}}">Főoldal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login')}}">Bejelentkezés</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 
     <center>
         <br><br>
         <form method="POST" action="">
-            <div class="card w-25 border-0">
-                <h1>Regisztráció</h1>
-                A felhasználónév és a jelszó legalább 4 és legfeljebb 20 karakterből állhat.
-                <br>
-                {{ form.hidden_tag() }}
-                <br>
-                <div class="form-outline mb-4">
-                    {{ form.username(class_="form-control") }}
-                    <label class="form-label" for="form2Example1">Felhasználónév</label>
-                </div>
-                <div class="form-outline mb-4">
-                    {{ form.password(class_="form-control") }}
-                    <label class="form-label" for="form2Example1">Jelszó</label>
-                </div>
-
+            <h1>Regisztráció</h1>
+            A felhasználónév és a jelszó legalább 4 és legfeljebb 20 karakterből állhat.
+            <br>
+            {{ form.hidden_tag() }}
+            <br><br>
+            <div class="form-outline mb-4">
+                {{ form.username(class_="form-control") }}
+                <label class="form-label" for="form2Example1">Felhasználónév</label>
+            </div>
+            <div class="form-outline mb-4">
+                {{ form.password(class_="form-control") }}
+                <label class="form-label" for="form2Example1">Jelszó</label>
+            </div>
+            <div class="submit-width">
                 {{ form.submit(class="btn btn-primary btn-block mb-4") }}
             </div>
         </form>
         <br>
         Már regisztrált? <a href="{{ url_for('login')}}">Lépjen be!</a>
+        <br>
     </center>
 </body>
 </html>
