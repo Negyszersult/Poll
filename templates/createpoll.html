@@ -43,75 +43,76 @@
     <center>
         <br>
         <form action="{{ url_for('createpoll') }}" method="POST">
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <div class="card">
                     <h3 class="card-header">Új szavazás készítése</h3>
                     <div class="card-body">
-                        <table class="table">
-                            <tr>
-                                <h5 class="card-title">Töltse ki a szükséges adatokat a szavazás elkészítéséhez</h5>
-                            </tr>
-                            <label for="question">
-                                <tr>
-                                    <td><p class="create-p"><b>Szavazás kérdése</b></p>
-                                    <input type="text" name="question" placeholder="Szavazás kérdése" id="poll" required></td>
-                                </tr>
-                            </label>
-                            <label for="option1">
-                                <tr>
-                                    <td><p class="create-p">Első válaszlehetőség</p>
-                                    <input type="text" name="option1" placeholder="Első válaszlehetőség" id="poll" required></td>
-                                </tr>
-                            </label>
-                            <label for="option2">
-                                <tr>
-                                    <td><p class="create-p">Második válaszlehetőség</p>
-                                    <input type="text" name="option2" placeholder="Második válaszlehetőség" id="poll" required></td>
-                                </tr>
-                            </label>
-                            <label for="option3">
-                                <tr>
-                                    <td><p class="create-p">Harmadik válaszlehetőség</p>
-                                    <input type="text" name="option3" placeholder="Harmadik válaszlehetőség" id="poll" required></td>
-                                </tr>
-                            </label>
-                            <label for="crypting">
-                                <tr>
-                                <td><p class="create-p">A szavazás fajtája</p>
-                                    <p class="create-p">Ha a szavazás Anonim, akkor a meghívott szavazók név nélkül adhatják le a szavazatukat.</p>
-                                    <p class="create-p">Ha a szavazás Nem Anonim, akkor a szavazás előtt a meghívottaknak meg kell adniuk a nevüket.</p>
-                                    <select name="anonim" id="anonim">
-                                        <option value="Anonim">Anonim</option>
-                                        <option value="Nem Anonim">Nem Anonim</option></td>
-                                </tr>
-                            </label>
-                            <label for="emails">
-                                <tr>
-                                    <td>
-                                        <p class="create-p">Írja be az E-mail címeket, akiket meg szeretne hívni a szavazásra</p>
-                                        <p class="create-p">Vesszővel és szóközzel válassza el az E-mail címeket</p>
-                                    <textarea type="email" name="emails" placeholder="Címzettek" multiple required id="subject"></textarea></td>
-                                </tr>
-                            </label>
-                            <laber for="email_subject_and_text">
-                                <tr>
-                                    <td><p class="create-p">Meghívó E-mail tárgya</p>
-                                        <input type="text" name="subject" placeholder="E-mail tárgya" id="subject" required>
-                                        <br><br>
-                                        <p class="create-p">Meghívó E-mail szövege</p>
-                                        <textarea name="body" placeholder="E-mail szövege" required></textarea>
-                                    </td>
-                                </tr>
-                            </laber>
-                            <tr>
-                                <td colspan="2"><input class="btn btn-primary" type="submit" value="Szavazás lértehozása"></td>
-                            </tr>
-                            <tr>
-                                <td colspan="2"><a class="btn btn-warning" href="{{ url_for('user_page') }}">Vissza a profilra</a></td>
-                            </tr>
-                        </table>
+                        <h5 class="card-title">Töltse ki a szükséges adatokat a szavazás elkészítéséhez</h5>
                     </div>
                 </div>
+                <table class="table table-width">
+                    <label for="question">
+                        <tr>
+                            <td><p class="create-p"><b>Szavazás kérdése</b></p>
+                            <input type="text" name="question" placeholder="Szavazás kérdése" id="poll" required></td>
+                        </tr>
+                    </label>
+                    <label for="option1">
+                        <tr>
+                            <td><p class="create-p"><b>Első válaszlehetőség</b></p>
+                            <input type="text" name="option1" placeholder="Első válaszlehetőség" id="poll" required></td>
+                        </tr>
+                    </label>
+                    <label for="option2">
+                        <tr>
+                            <td><p class="create-p"><b>Második válaszlehetőség</b></p>
+                            <input type="text" name="option2" placeholder="Második válaszlehetőség" id="poll" required></td>
+                        </tr>
+                    </label>
+                    <label for="option3">
+                        <tr>
+                            <td><p class="create-p"><b>Harmadik válaszlehetőség</b></p>
+                            <input type="text" name="option3" placeholder="Harmadik válaszlehetőség" id="poll" required></td>
+                        </tr>
+                    </label>
+                    <label for="crypting">
+                        <tr>
+                        <td><p class="create-p"><b>A szavazás fajtája</b></p>
+                            <p class="create-p">Ha a szavazás Anonim, akkor a meghívott szavazók név nélkül adhatják le a szavazatukat.</p>
+                            <p class="create-p">Ha a szavazás Nem Anonim, akkor a szavazás előtt a meghívottaknak meg kell adniuk a nevüket.</p>
+                            <select name="anonim" id="anonim">
+                                <option value="Anonim">Anonim</option>
+                                <option value="Nem Anonim">Nem Anonim</option></td>
+                        </tr>
+                    </label>
+                    <label for="emails">
+                        <tr>
+                            <td>
+                                <p class="create-p"><b>Meghívó</b></p>
+                                <p class="create-p">Írja be az E-mail címeket, akiket meg szeretne hívni a szavazásra</p>
+                                <p class="create-p">Vesszővel és szóközzel válassza el az E-mail címeket</p>
+                                <textarea type="email" name="emails" placeholder="Címzettek" multiple required id="subject"></textarea>
+                            </td>
+                        </tr>
+                    </label>
+                    <laber for="email_subject_and_text">
+                        <tr>
+                            <td>
+                                <p class="create-p"><b>Meghívó E-mail tárgya</b></p>
+                                <input type="text" name="subject" placeholder="E-mail tárgya" id="subject" required>
+                                <br><br>
+                                <p class="create-p"><b>Meghívó E-mail szövege</b></p>
+                                <textarea name="body" placeholder="E-mail szövege" required></textarea>
+                            </td>
+                        </tr>
+                    </laber>
+                    <tr>
+                        <td colspan="2"><input class="btn btn-primary" type="submit" value="Szavazás lértehozása"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><a class="btn btn-warning" href="{{ url_for('user_page') }}">Vissza a profilra</a></td>
+                    </tr>
+                </table>
             </div>
         </form>
     </center>
