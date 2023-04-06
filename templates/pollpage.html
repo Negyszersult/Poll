@@ -11,6 +11,7 @@
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='secretum_logo.ico') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
     <title>SECRETUM - Szavazás</title>
 
@@ -30,42 +31,44 @@
     
 
     <center>
-        <div class="card w-75">
-            <h3 class="card-header">{{ question['question'] }}</h3>
-            <div class="card-body">
-                <div class="card">
-                    <div class="card=body">
-                        <table class="table" style="width:100%">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>1. válaszlehetőség</th>
-                                    <th>2. válaszlehetőség</th>
-                                    <th>3. válaszlehetőség</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><p><b>{{ question['option_1'] }}</b><br><br><a class="btn btn-primary" href="{{ url_for('polling', Qid=question.name, option=1) }}">Szavazat leadása</a></p></td>
-                                    <td><p><b>{{ question['option_2'] }}</b><br><br><a class="btn btn-primary" href="{{ url_for('polling', Qid=question.name, option=2) }}">Szavazat leadása</a></p></td>
-                                    <td><p><b>{{ question['option_3'] }}</b><br><br><a class="btn btn-primary" href="{{ url_for('polling', Qid=question.name, option=3) }}">Szavazat leadása</a></p></td>
-                                </tr>
-                                {% with messages = get_flashed_messages() %}
-                                    {% if messages %}
-                                        {% for message in messages %}
-                                            <tr>
-                                                <td colspan="3" style="text-align: center;">
-                                                    <h2>{{ message }}</h2>
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
-                                    {% endif %}
-                                {% endwith %}
-                                <tr>
-                                    <td colspan="3"><a href="{{ url_for('results', Qid=question.name) }}">Szavazás eredménye</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <h3 class="card-header">{{ question['question'] }}</h3>
+                <div class="card-body">
+                    <table class="table table-width">
+                        {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <tr>
+                                        <td colspan="3" style="text-align: center;">
+                                            <h2>{{ message }}</h2>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        <tr>
+                            <td>
+                                1. válaszlehetőség
+                                <p><b>{{ question['option_1'] }}</b><br><br><a class="btn btn-primary" href="{{ url_for('polling', Qid=question.name, option=1) }}">Szavazat leadása</a></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2. válaszlehetőség
+                                <p><b>{{ question['option_2'] }}</b><br><br><a class="btn btn-primary" href="{{ url_for('polling', Qid=question.name, option=2) }}">Szavazat leadása</a></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                3. válaszlehetőség
+                                <p><b>{{ question['option_3'] }}</b><br><br><a class="btn btn-primary" href="{{ url_for('polling', Qid=question.name, option=3) }}">Szavazat leadása</a></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><a href="{{ url_for('results', Qid=question.name) }}">Szavazás eredménye</a></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>

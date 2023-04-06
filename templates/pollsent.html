@@ -10,6 +10,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
     <link rel="shortcut icon" href="{{ url_for('static', filename='secretum_logo.ico') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     
     <title>SECRETUM - Meghívó kiküldve</title>
 
@@ -21,17 +23,29 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <nav class="navbar navbar-dark bg-dark">
         <a class="navbar-brand">SECRETUM</a>
+        <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+        aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="white-color">
+        <i class="fas fa-bars fa-1x"></i></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('logout')}}">Kijelentkezés</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 
     <center>
-        <br><br><br><br>
-        <div class="card w-50">
-            <h5 class="card-header">A szavazása elkészült!</h5>
-            <div class="card-body">
-                <h3>Az elkészített szavazást kiküldtük a meghívottaknak, akik leadhatják a szavazatukat.</h3>
-                <a class="btn btn-primary" href="{{ url_for('user_page') }}">Vissza a profilra</a>
+        <br><br>
+        <div class="col-sm-6">
+            <div class="card">
+                <h5 class="card-header">A szavazása elkészült!</h5>
+                <div class="card-body">
+                    <h3>Az elkészített szavazást kiküldtük a meghívottaknak, akik leadhatják a szavazatukat.</h3>
+                    <a class="btn btn-primary" href="{{ url_for('user_page') }}">Vissza a profilra</a>
+                </div>
             </div>
         </div>
     </center>
