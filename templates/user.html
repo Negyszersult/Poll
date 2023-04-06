@@ -45,50 +45,45 @@
         <br><br>
         <div class="card">
             <h3 class="card-header">Az eddig elkészített szavazásai</h3>
-            <p class="card-text"></p>
-            <div class="table-wrapper-scroll-y my-custom-scrollbar styled-table">
-                <div class="card-body">
-                    <div class="m-4">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead class="thead-dark" style="position: sticky;top: 0">
-                                    <tr>
-                                        <th class="th-sm header" scope="col">Szavazás kérdése</th>
-                                        <th class="th-sm header" scope="col">Szavazás megtekintése</th>
-                                        <th class="th-sm header" scope="col">Szavazás eredménye</th>
-                                        <th class="th-sm header" scope="col">Meghívottak száma</th>
-                                        <th class="th-sm header" scope="col">Szavazás fajtája</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="active-row">
-                                        <td colspan="5">
-                                            {% with messages = get_flashed_messages() %}
-                                                {% if messages %}
-                                                    {% for message in messages %}
-                                                        <br>
-                                                        <h2>{{ message }}</h2>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            {% endwith %}
-                                        </td>
-                                    </tr>
-                                    {% for key, value in polls.iterrows() %}
-                                        {% if key > 0 %}
-                                            <tr class="active-row">
-                                                <td><p>{{ value['question'] }}</p></td>
-                                                <td><a class="btn btn-info" href="{{ url_for('polls', Qid=key) }}">Megtekintés</a></td>
-                                                <td><a class="btn btn-info" href="{{ url_for('results', Qid=key) }}">Eredmény</a></td>
-                                                <td><p>{{ value['participants'] }}</p></td>
-                                                <td><p>{{ value['crypt'] }}</p></td>
-                                            </tr>
-                                        {% endif %}
-                                    {% endfor %}
-                                </tbody>
-                            </div>
-                        </div>
-                    </table>
-                </div>
+        </div>
+        <div class="table-wrapper-scroll-y my-custom-scrollbar styled-table">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="thead-dark" style="position: sticky;top: 0">
+                        <tr>
+                            <th class="th-sm header" scope="col">Szavazás kérdése</th>
+                            <th class="th-sm header" scope="col">Szavazás megtekintése</th>
+                            <th class="th-sm header" scope="col">Szavazás eredménye</th>
+                            <th class="th-sm header" scope="col">Meghívottak száma</th>
+                            <th class="th-sm header" scope="col">Szavazás fajtája</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="active-row">
+                            <td colspan="5">
+                                {% with messages = get_flashed_messages() %}
+                                    {% if messages %}
+                                        {% for message in messages %}
+                                            <br>
+                                            <h2>{{ message }}</h2>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endwith %}
+                            </td>
+                        </tr>
+                        {% for key, value in polls.iterrows() %}
+                            {% if key > 0 %}
+                                <tr class="active-row">
+                                    <td><p>{{ value['question'] }}</p></td>
+                                    <td><a class="btn btn-info" href="{{ url_for('polls', Qid=key) }}">Megtekintés</a></td>
+                                    <td><a class="btn btn-info" href="{{ url_for('results', Qid=key) }}">Eredmény</a></td>
+                                    <td><p>{{ value['participants'] }}</p></td>
+                                    <td><p>{{ value['crypt'] }}</p></td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
         <div id='chart' class='chart'></div>

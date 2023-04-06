@@ -32,20 +32,20 @@ tr {
 }
 
 select {
-    width: 300px;
-    height: 45px;
-    padding: 16px 20px;
+    width: 150px;
+    height: 30px;
+    padding: 15px 20px;
     border: none;
     border-radius: 4px;
     background-color: #f1f1f1;
   }
 
 #poll {
-    width: 300px;
+    width: 250px;
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 15px;
     background-color: white;
     background-position: 10px 10px; 
     background-repeat: no-repeat;
@@ -54,11 +54,11 @@ select {
 }
   
 #poll[type=text]:focus {
-    width: 564px;
+    width: 300px;
 }
 
 #subject {
-    width: 564px;
+    width: 300px;
     height: 40px;
     border: 1px solid black;
     margin: 2px;
@@ -66,6 +66,8 @@ select {
 
 textarea {
     border: 1px solid black;
+    width: 300px;
+    height: 150px;
 }
 
 p {
@@ -102,4 +104,8 @@ textarea {
 
 .submit-width {
     width: 150px;
+}
+
+.create-p {
+    font-size: 15px;
 }
