@@ -12,7 +12,6 @@ import smtplib
 import pandas as pd
 import os.path
 import os
-import uuid
 
 app = Flask(__name__,template_folder='templates', static_url_path='/static')
 
@@ -242,8 +241,8 @@ def createpoll():
 
         if crypt == "Anonim":
             # meghívó email küldés
-            email_sender = 'secretum.polling.app@gmail.com'
-            email_password = 'cspsmtwxvjeedsot'
+            email_sender = 'secretumpoll@gmail.com'
+            email_password = 'xvqtytatucqzszyp'
             email_receiver = email_list
             subject = request.form["subject"]
             mail_body = request.form["body"]
@@ -278,8 +277,8 @@ def createpoll():
         
         elif crypt == "Nem Anonim":
             # meghívó email küldés
-            email_sender = 'secretum.polling.app@gmail.com'
-            email_password = 'cspsmtwxvjeedsot'
+            email_sender = 'secretumpoll@gmail.com'
+            email_password = 'xvqtytatucqzszyp'
             email_receiver = email_list
             subject = request.form["subject"]
             mail_body = request.form["body"]
