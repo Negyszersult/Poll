@@ -246,8 +246,13 @@ def createpoll():
             email_receiver = email_list
             subject = request.form["subject"]
             mail_body = request.form["body"]
-            body = f"""{mail_body}
-                https://secretum-polling-app.herokuapp.com/polls/{Qid}.
+            body = f"""
+            Ön meghívást kapott egy online szavazásra a Secretum weboldalon.
+
+            {mail_body}
+
+            Az alábbi linkre kattintva leadhatja szavatát.
+            https://secretum-polling-app.herokuapp.com/polls/{Qid}.
             """
             em = EmailMessage()
             em['From'] = email_sender
@@ -282,8 +287,13 @@ def createpoll():
             email_receiver = email_list
             subject = request.form["subject"]
             mail_body = request.form["body"]
-            body = f"""{mail_body}
-                https://secretum-polling-app.herokuapp.com/votername.
+            body = f"""
+            Ön meghívást kapott egy online szavazásra a Secretum weboldalon.
+
+            {mail_body}
+
+            Az alábbi linkre kattintva leadhatja szavatát.
+            https://secretum-polling-app.herokuapp.com/votername.
             """
             em = EmailMessage()
             em['From'] = email_sender
