@@ -17,8 +17,8 @@ app = Flask(__name__,template_folder='templates', static_url_path='/static')
 
 bcrypt = Bcrypt(app)
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///userdatabase.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://fshfldekoptndg:daf1fd912453671c8c2a76cb08a95ed54d42822a7f619c2d702d65158c342700@ec2-54-73-22-169.eu-west-1.compute.amazonaws.com:5432/ded1tfoj1o9979'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///userdatabase.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://fshfldekoptndg:daf1fd912453671c8c2a76cb08a95ed54d42822a7f619c2d702d65158c342700@ec2-54-73-22-169.eu-west-1.compute.amazonaws.com:5432/ded1tfoj1o9979'
 app.config['SECRET_KEY'] = 'dsgsagajksgbldfbj2ekbrtu2i4tfisdkbkjsda'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -67,7 +67,7 @@ class RegisterForm(FlaskForm):
         # ha létezik, felhasználónév vagy jelszó hiba üzenete
         if existing_user_username:
             raise ValidationError(
-               "Ez a felhasználónév vagy jelszó már létezik. Kérlek válassz másikat."
+               "Ez a felhasználónév, vagy jelszó már létezik. Kérem válasszon másikat."
             )
 
 # FlaskForm login.html oldal
@@ -93,7 +93,7 @@ def login():
     
     form = LoginForm()
 
-    # le ellenőrzi, hogy a felhasználó létezik e az adatbázisban vagy sem, a gomb lenyomása után
+    # leellenőrzi, hogy a felhasználó létezik e az adatbázisban vagy sem a gomb lenyomása után
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         # ha benne van, létezik ilyen felhasználó
@@ -105,7 +105,7 @@ def login():
                 return redirect(url_for('login_succes'))
         # ha nem létezik
         else:
-            wrong_user = "Rossz felhasználónevet, vagy jelszót adott meg!"
+            wrong_user = "Rossz felhasználónevet, vagy jelszavat adott meg!"
             return render_template("login.html", form=form, wrong_user=wrong_user)
 
     return render_template("login.html", form=form)
@@ -127,19 +127,18 @@ def register():
 
     return render_template("register.html", form=form)
 
-# kijelentkezés oldal
+# kijelentkezés
 @app.route('/logout', methods=['GET', 'POST'])
+@login_required
 def logout():
-    login_required
-    logout_user
+    logout_user()
     return redirect(url_for('home'))
 
 
 # sikeres belépés oldal
 @app.route('/loginsucces', methods=['GET', 'POST'])
+@login_required
 def login_succes():
-
-    login_required
 
     # log készítése, hogy melyik felhasználó mikor lépett be és adatbázis táblába mentése
     user_name = current_user.username
@@ -167,7 +166,7 @@ def login_succes():
             "option_2": ["0"],
             "vote_result_counter_2": ["0"],
             "option_3": ["0"],
-            "vote_result_counter_3": ["0"]
+            "vote_result_counter_3": ["0"],
         }
         pd.DataFrame(structure).set_index("Qid").to_csv(f'./users_polls_csv/user_{current_user_name}_polls.csv')
 
@@ -175,15 +174,13 @@ def login_succes():
 
 # a felhasználó oldala
 @app.route('/userpage')
+@login_required
 def user_page():
-
-    login_required
 
     last_user_name = LastLoggedInUser.query.all()
     for username in last_user_name:
         current_user_name = username.last_logged_in_user_name
     polls_df = pd.read_csv(f'./users_polls_csv/user_{current_user_name}_polls.csv').set_index("Qid")
-
 
     return render_template("user.html", polls = polls_df, current_user_name=current_user_name)
 
@@ -204,9 +201,8 @@ def polls(Qid):
 
 # szavazás elkészítésének és meghívük kiküldésének oldala
 @app.route('/createpoll', methods = ['GET', 'POST'])
+@login_required
 def createpoll():
-
-    login_required
 
     last_user_name = LastLoggedInUser.query.all()
     for username in last_user_name:
@@ -241,8 +237,8 @@ def createpoll():
 
         if crypt == "Anonim":
             # meghívó email küldés
-            email_sender = 'secretumpoll@gmail.com'
-            email_password = 'xvqtytatucqzszyp'
+            email_sender = 'pollsecretum@gmail.com'
+            email_password = 'hpoqmcdaxtaefnzv'
             email_receiver = email_list
             subject = request.form["subject"]
             mail_body = request.form["body"]
@@ -280,10 +276,10 @@ def createpoll():
 
             return render_template("pollsent.html")
         
-        elif crypt == "Nem Anonim":
+        elif crypt == "Nyilvános":
             # meghívó email küldés
-            email_sender = 'secretumpoll@gmail.com'
-            email_password = 'xvqtytatucqzszyp'
+            email_sender = 'pollsecretum@gmail.com'
+            email_password = 'hpoqmcdaxtaefnzv'
             email_receiver = email_list
             subject = request.form["subject"]
             mail_body = request.form["body"]
@@ -308,7 +304,7 @@ def createpoll():
             # csv fájl létrehozása minden elkészített szavazáshoz, melyekben a válaszadók adatai mentődnek:
             # a szavazó IP címe(szavazás fajtájától függően titkosítva, vagy titkosítás nélkül)
             # a szavazó válaszának száma
-            if not os.path.exists(f'./participants_vote_by{current_user_name}/participants_vote__poll_{Qid}.csv'):
+            if not os.path.exists(f'./participants_vote_csv/participants_vote_{current_user_name}_poll_{Qid}.csv'):
                 structure = {
                     "Pid": ["0"],
                     "voted_question": ["0"],
@@ -316,7 +312,8 @@ def createpoll():
                     "IP_ADDRESS": ["0"],
                     "voted_option": ["0"],
                 }
-                pd.DataFrame(structure).set_index("Pid").to_csv(f'./participants_vote_csv/participants_vote_{current_user_name}_poll_{Qid}.csv')
+                pd.DataFrame(structure).set_index("Pid").to_csv(
+                    f'./participants_vote_csv/participants_vote_{current_user_name}_poll_{Qid}.csv')
                 
             return render_template("pollsent.html")
 
@@ -341,7 +338,7 @@ def getvotername():
         participants_df.to_csv(f'./participants_vote_csv/participants_vote_{current_user_name}_poll_{Qid}.csv')
         return redirect(url_for('polls', Qid=Qid))
 
-# szavazás lebonyolításának oldala
+# szavazás lebonyolítása
 @app.route('/polling/<Qid>/<option>', methods=["GET", "POST"])
 def polling(Qid, option):
     last_user_name = LastLoggedInUser.query.all()
@@ -364,8 +361,8 @@ def polling(Qid, option):
         voted_question = (polls_df.at[int(Qid), 'question'])
 
         # titkosítás
-        if crypt == "Nem Anonim":
-            # ha a szavazás "Nem Anonim", akkor a szavazó IP címe mentődik el a csv fájlban a választott szavazatának számával
+        if crypt == "Nyilvános":
+            # ha a szavazás "Nyilvános", akkor a szavazó IP címe mentődik el a csv fájlban a szavazatának sorszámával
             if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
                 ip_addr = request.environ['REMOTE_ADDR']
             else: # proxy használata esetén
@@ -373,7 +370,7 @@ def polling(Qid, option):
             participants_df.at[max(participants_df.index.values), "IP_ADDRESS"] = ip_addr
             participants_df.at[max(participants_df.index.values), "voted_option"] = option
         elif crypt == "Anonim":
-            # ha a szavazás "Anonim", akkor a szavazó IP címe titkosítva mentődik el a csv fájlban a választott szavazatának számával
+            # ha a szavazás "Anonim", akkor a szavazó IP címe titkosítva mentődik el a csv fájlban a szavazatának sorszámával
             if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
                 ip_addr = request.environ['REMOTE_ADDR']
             else: # proxy használata esetén
@@ -403,9 +400,10 @@ def results(Qid):
 
     polls_df = pd.read_csv(f'./users_polls_csv/user_{current_user_name}_polls.csv')
     question = polls_df.loc[int(Qid)]
+    participants_df = pd.read_csv(f'./participants_vote_csv/participants_vote_{current_user_name}_poll_{Qid}.csv').set_index("Pid")
+    crypt = (polls_df.at[int(Qid), 'crypt'])
 
     # Google Chart data
-    polls_df = pd.read_csv(f'./users_polls_csv/user_{current_user_name}_polls.csv')
     option_1 = polls_df.at[int(Qid), 'option_1']
     option_2 = polls_df.at[int(Qid), 'option_2']
     option_3 = polls_df.at[int(Qid), 'option_3']
@@ -418,14 +416,6 @@ def results(Qid):
     result_1 = int(result_1)
     result_2 = int(result_2)
     result_3 = int(result_3)
-    option = []
-    result = []
-    option.append(option_1)
-    option.append(option_2)
-    option.append(option_3)
-    result.append(result_1)
-    result.append(result_2)
-    result.append(result_3)
 
     values = [
         ["Válaszlehetőség", "Szavazatok száma"],
@@ -434,19 +424,16 @@ def results(Qid):
         [option_3, result_3]
         ]
     
-    crypt = (polls_df.at[int(Qid), 'crypt'])
-    participants_df = pd.read_csv(f'./participants_vote_csv/participants_vote_{current_user_name}_poll_{Qid}.csv').set_index("Pid")
-
-    if crypt == "Nem Anonim":
+    if crypt == "Nyilvános":
         voter_name = participants_df["voter_name"].to_list()
         del voter_name[0]
         voted_option = participants_df["voted_option"].to_list()
         del voted_option[0]
         data = zip(voter_name, voted_option)
         return render_template("result.html", question=question, row_data=values, data=data)
-
     elif crypt == "Anonim":
         return render_template("result.html", question=question, row_data=values)
     
+# alkalmazás futtatása
 if __name__=='__main__':
    app.run(debug=True)
