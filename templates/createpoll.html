@@ -51,61 +51,47 @@
                     </div>
                 </div>
                 <table class="table table-width">
-                    <label for="question">
-                        <tr>
-                            <td><p class="create-p"><b>Szavazás kérdése</b></p>
-                            <input type="text" name="question" placeholder="Szavazás kérdése" id="poll" required></td>
-                        </tr>
-                    </label>
-                    <label for="option1">
-                        <tr>
-                            <td><p class="create-p"><b>Első válaszlehetőség</b></p>
-                            <input type="text" name="option1" placeholder="Első válaszlehetőség" id="poll" required></td>
-                        </tr>
-                    </label>
-                    <label for="option2">
-                        <tr>
-                            <td><p class="create-p"><b>Második válaszlehetőség</b></p>
-                            <input type="text" name="option2" placeholder="Második válaszlehetőség" id="poll" required></td>
-                        </tr>
-                    </label>
-                    <label for="option3">
-                        <tr>
-                            <td><p class="create-p"><b>Harmadik válaszlehetőség</b></p>
-                            <input type="text" name="option3" placeholder="Harmadik válaszlehetőség" id="poll" required></td>
-                        </tr>
-                    </label>
-                    <label for="crypting">
-                        <tr>
-                        <td><p class="create-p"><b>A szavazás fajtája</b></p>
-                            <p class="create-p">Ha a szavazás Anonim, akkor a meghívott szavazók név nélkül adhatják le a szavazatukat.</p>
-                            <p class="create-p">Ha a szavazás Nyilvános, akkor a szavazás előtt a meghívottaknak meg kell adniuk a nevüket.</p>
-                            <select name="anonim" id="anonim">
-                                <option value="Anonim">Anonim</option>
-                                <option value="Nyilvános">Nyilvános</option></td>
-                        </tr>
-                    </label>
-                    <label for="emails">
-                        <tr>
-                            <td>
-                                <p class="create-p"><b>Meghívó</b></p>
-                                <p class="create-p">Írja be az E-mail címeket, akiket meg szeretne hívni a szavazásra</p>
-                                <p class="create-p">Vesszővel és szóközzel válassza el az E-mail címeket</p>
-                                <textarea type="email" name="emails" placeholder="Címzettek" multiple required id="subject"></textarea>
-                            </td>
-                        </tr>
-                    </label>
-                    <laber for="email_subject_and_text">
-                        <tr>
-                            <td>
-                                <p class="create-p"><b>Meghívó E-mail tárgya</b></p>
-                                <input type="text" name="subject" placeholder="E-mail tárgya" id="subject" required>
-                                <br><br>
-                                <p class="create-p"><b>Meghívó E-mail szövege</b></p>
-                                <textarea name="body" placeholder="E-mail szövege" required></textarea>
-                            </td>
-                        </tr>
-                    </laber>
+                    <tr>
+                        <td><p class="create-p"><b>Szavazás kérdése</b></p>
+                        <input type="text" name="question" placeholder="Szavazás kérdése" id="poll" required></td>
+                    </tr>
+                    <tr>
+                        <td><p class="create-p"><b>Első válaszlehetőség</b></p>
+                        <input type="text" name="option1" placeholder="Első válaszlehetőség" id="poll" required></td>
+                    </tr>
+                    <tr>
+                        <td><p class="create-p"><b>Második válaszlehetőség</b></p>
+                        <input type="text" name="option2" placeholder="Második válaszlehetőség" id="poll" required></td>
+                    </tr>
+                    <tr>
+                        <td><p class="create-p"><b>Harmadik válaszlehetőség</b></p>
+                        <input type="text" name="option3" placeholder="Harmadik válaszlehetőség" id="poll" required></td>
+                    </tr>
+                    <tr>
+                    <td><p class="create-p"><b>A szavazás fajtája</b></p>
+                        <p class="create-p">Ha a szavazás Anonim, akkor a meghívott szavazók név nélkül adhatják le a szavazatukat.</p>
+                        <p class="create-p">Ha a szavazás Nyilvános, akkor a szavazás előtt a meghívottaknak meg kell adniuk a nevüket.</p>
+                        <select name="anonim" id="anonim">
+                            <option value="Anonim">Anonim</option>
+                            <option value="Nyilvános">Nyilvános</option></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="create-p"><b>Meghívó</b></p>
+                            <p class="create-p">Írja be az E-mail címeket, akiket meg szeretne hívni a szavazásra</p>
+                            <p class="create-p">Vesszővel és szóközzel válassza el az E-mail címeket</p>
+                            <textarea type="email" name="emails" placeholder="Címzettek" multiple required id="subject"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="create-p"><b>Meghívó E-mail tárgya</b></p>
+                            <input type="text" name="subject" placeholder="E-mail tárgya" id="subject" required>
+                            <br><br>
+                            <p class="create-p"><b>Meghívó E-mail szövege</b></p>
+                            <textarea name="body" placeholder="E-mail szövege" required></textarea>
+                        </td>
+                    </tr>
                     <tr>
                         <td colspan="2"><input class="btn btn-primary" type="submit" value="Szavazás lértehozása"></td>
                     </tr>

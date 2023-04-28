@@ -12,6 +12,9 @@ import smtplib
 import pandas as pd
 import os.path
 import os
+from math import gcd
+import random
+from sympy import randprime
 
 app = Flask(__name__,template_folder='templates', static_url_path='/static')
 
@@ -19,7 +22,7 @@ bcrypt = Bcrypt(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///userdatabase.db'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://fshfldekoptndg:daf1fd912453671c8c2a76cb08a95ed54d42822a7f619c2d702d65158c342700@ec2-54-73-22-169.eu-west-1.compute.amazonaws.com:5432/ded1tfoj1o9979'
-app.config['SECRET_KEY'] = 'dsgsagajksgbldfbj2ekbrtu2i4tfisdkbkjsda'
+app.config['SECRET_KEY'] = 'dsgsagajksgbldfbj2ekbrtu2i4tfisdkbkjsdaa'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -319,7 +322,6 @@ def createpoll():
 
 @app.route('/votername', methods=["GET", "POST"])
 def getvotername():
-
     last_user_name = LastLoggedInUser.query.all()
     for username in last_user_name:
         current_user_name = username.last_logged_in_user_name
@@ -330,13 +332,19 @@ def getvotername():
     question = polls_df.iloc[int(Qid), polls_df.columns.get_loc("question")]
     participants_df = pd.read_csv(f'./participants_vote_csv/participants_vote_{current_user_name}_poll_{Qid}.csv').set_index("Pid")
 
-    if request.method == "GET":
-        return render_template("votername.html")
-    elif request.method == "POST":
-        voter_name = request.form["votername"]
-        participants_df.loc[max(participants_df.index.values) + 1] = [question, voter_name, 0, 0]
-        participants_df.to_csv(f'./participants_vote_csv/participants_vote_{current_user_name}_poll_{Qid}.csv')
+    if request.cookies.get('current_page') is None:
+        if request.method == "GET":
+            return render_template("votername.html")
+        elif request.method == "POST":
+            voter_name = request.form["votername"]
+            participants_df.loc[max(participants_df.index.values) + 1] = [question, voter_name, 0, 0]
+            participants_df.to_csv(f'./participants_vote_csv/participants_vote_{current_user_name}_poll_{Qid}.csv')
+            response = make_response(redirect(url_for('polls', Qid=Qid)))
+            response.set_cookie('current_page', request.url)
+            return response
+    else:
         return redirect(url_for('polls', Qid=Qid))
+            
 
 # szavazás lebonyolítása
 @app.route('/polling/<Qid>/<option>', methods=["GET", "POST"])
@@ -355,12 +363,48 @@ def polling(Qid, option):
     if request.cookies.get(f'polling_{current_user_name}_{Qid}_cookie') is None:
 
         # szavat leadása után a választott szavazat értékének növelése egyel a csv fájlban
-        polls_df.at[int(Qid), "vote_result_counter_"+str(option)] += 1
+        polls_df.at[int(Qid), 'vote_result_counter_'+str(option)] += 1
         polls_df.to_csv(f'./users_polls_csv/user_{current_user_name}_polls.csv')
 
         voted_question = (polls_df.at[int(Qid), 'question'])
 
-        # titkosítás
+        # modulo inverzének kiszámítása
+        def mod_inverse(e, phi):
+            d = 0
+            new_d = 1
+            r = phi
+            while e != 0:
+                q = r // e
+                d, new_d = new_d, d - q * new_d
+                r, e = e, r - q * e
+            if d == 1:
+                d = d + phi
+            return d
+
+        # titkosításhoz szükséges kulcspárok generálása
+        def generate_key_pair():
+            p = randprime(10**49, (10**50)-1)
+            p_str= str(p)
+            while len(p_str) != 50:
+                p = randprime(10**49, (10**50)-1)
+                p_str = str(p)
+            p = int(p_str)
+
+            q = randprime(10**49, 10**50-1)
+            q_str= str(q)
+            while len(q_str) != 50:
+                q = randprime(10**49, 10**50-1)
+                q_str = str(q)
+            q = int(q_str)
+            n = p*q
+
+            phi = (p-1)*(q-1)
+            e = random.randrange(2, phi)
+            while gcd(e, phi) != 1:
+                e = random.randrange(2, phi)
+            d = mod_inverse(e, phi)
+            return (e, n), (d, n)
+
         if crypt == "Nyilvános":
             # ha a szavazás "Nyilvános", akkor a szavazó IP címe mentődik el a csv fájlban a szavazatának sorszámával
             if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
@@ -374,9 +418,31 @@ def polling(Qid, option):
             if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
                 ip_addr = request.environ['REMOTE_ADDR']
             else: # proxy használata esetén
-                ip_addr = request.environ['HTTP_X_FORWARDED_FOR']   
-            hashed_ip_addr = bcrypt.generate_password_hash(ip_addr)
-            participants_df.loc[max(participants_df.index.values) + 1] = [voted_question, 0, hashed_ip_addr, option]
+                ip_addr = request.environ['HTTP_X_FORWARDED_FOR']
+            
+            # kulcsok legenerálása, titkosítás és hexadecimális értékké alakítás a tárolás miatt
+            public_key, private_key = generate_key_pair()
+            e, n = public_key
+            crypted_ip_list = []
+            for x in ip_addr:
+                unicode_x = ord(x)
+                pow_x = pow(unicode_x, e, n)
+                crypted_ip_list.append(pow_x)
+            crypted_ip_hex = ""
+            for y in crypted_ip_list:
+                crypted_ip_hex += "{:02x}".format(y)
+
+            # visszafejtés
+            decrypted_ip = []
+            d, n = private_key
+            for x in crypted_ip_list:
+                x = int(x)
+                pow_x = pow(x, d, n)
+                decrypted_chr = chr(pow_x)
+                decrypted_ip += decrypted_chr
+            decrypted_ip = ''.join(decrypted_ip)
+        
+            participants_df.loc[max(participants_df.index.values) + 1] = [voted_question, 0, crypted_ip_hex, option]
         participants_df.to_csv(f'./participants_vote_csv/participants_vote_{current_user_name}_poll_{Qid}.csv')
         
         #cookie beállítása
