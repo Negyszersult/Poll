@@ -21,7 +21,7 @@ app = Flask(__name__,template_folder='templates', static_url_path='/static')
 bcrypt = Bcrypt(app)
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///userdatabase.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://jugoflrzezyqph:ab12308a28f89101a1428de058fc2605acb0d689b3cc0bc09c218d914b587e98@ec2-54-73-22-169.eu-west-1.compute.amazonaws.com:5432/db53drba6187ai'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://ovbdhunafowbao:0c1af3ff0a2922505d549dd4c0d8b61e47ebd27f74289bf501f9df1a94f167a9@ec2-63-35-80-199.eu-west-1.compute.amazonaws.com:5432/d7qbecuoap1a66'
 app.config['SECRET_KEY'] = 'dsgsagajksgbldfbj2ekbrtu2i4tfisdkbkjsda'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
