@@ -7,14 +7,14 @@ from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 from email.message import EmailMessage
 from datetime import datetime
+from math import gcd
+from sympy import randprime
 import ssl
 import smtplib
 import pandas as pd
 import os.path
 import os
-from math import gcd
 import random
-from sympy import randprime
 
 app = Flask(__name__,template_folder='templates', static_url_path='/static')
 
