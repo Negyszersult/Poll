@@ -42,7 +42,11 @@
                     {% for message in messages %}
                         <tr>
                             <td colspan="3" style="text-align: center;">
-                                <h2>{{ message }}</h2>
+                                <div class="col-sm-6">
+                                    <div class="card">
+                                        <h2>{{ message }}</h2>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     {% endfor %}
