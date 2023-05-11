@@ -291,7 +291,7 @@ def createpoll():
 
             {mail_body}
 
-            Az alábbi linkre kattintva leadhatja szavatát.
+            Az alábbi linkre kattintva leadhatja szavazatát.
             https://secretum-polling-app.herokuapp.com/votername.
             """
             em = EmailMessage()

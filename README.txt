@@ -3,7 +3,7 @@ A következő leírás az alkalmazás lokális elindítását írja le.
 2. Telepítésnél “Add Python to PATH” kipipálása
 3. Virtuális környezet aktiválása a következő paranccsal a parancssorba:
 	- Windows alatt:
-		“flaskenv\Scripts\activate”
+		“flaskenv\bin\activate”
 	- MacOS és Linux alatt:
 		“source flaskenv/bin/activate”
 4. pip3 feltelepítése a “python3 get-pip.py” sorral
