@@ -1,4 +1,6 @@
-A következő leírás az alkalmazás lokális elindítását írja le.
+Az alkalmazás elérhető a https://secretum-polling-app.herokuapp.com URL-en.
+
+A következő leírás az alkalmazás lokális elindítását írja le a letöltés után.
 
 1. Python telepítése
 
